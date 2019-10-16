@@ -1,0 +1,6 @@
+[theme]
+name=Zero
+description=Zero Theme
+engine=lightdm-webkit2-greeter
+url=index.html
+session=xmonad

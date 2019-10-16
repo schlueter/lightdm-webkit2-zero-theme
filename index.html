@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>LightDM Webkit2 Greeter</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/script.js"></script>
+</head>
+
+<body id="body">
+    <div class="container">
+        <div class="inputBox">
+            <div class="wrapper">
+                <div id="prompt"></div>
+                <form action="javascript:handle_input();">
+                    <input id="entry" />
+                </form>
+            </div>
+        </div>
+        <div class="messageBox" id="messages"></div>
+        <script>
+            start_authentication()
+        </script>
+    </div>
+</body>
+
+</html>
