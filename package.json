@@ -1,0 +1,15 @@
+{
+  "name": "zero",
+  "version": "1.0.0",
+  "description": "A minimal theme for the lightdm webkit2 greeter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/schlueter/lightdm-webkit2-zero-theme"
+  },
+  "author": "Schlueter",
+  "license": "GPL-3.0-or-later"
+}
