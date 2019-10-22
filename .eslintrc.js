@@ -106,7 +106,7 @@ module.exports = {
             "error",
             {
                 "ignoreUrls": true,
-                "code": 80
+                "code": 120
             }
         ],
         "max-lines": "error",
@@ -115,8 +115,8 @@ module.exports = {
         "max-params": "error",
         "max-statements": "error",
         "max-statements-per-line": "off",
-        "multiline-comment-style": "error",
-        "multiline-ternary": "error",
+        "multiline-comment-style": ["error", "bare-block"],
+        "multiline-ternary": ["error", "always-multiline"],
         "new-cap": "error",
         "new-parens": "error",
         "newline-after-var": "off",
@@ -192,7 +192,6 @@ module.exports = {
         "no-sync": "error",
         "no-tabs": "error",
         "no-template-curly-in-string": "error",
-        "no-ternary": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
