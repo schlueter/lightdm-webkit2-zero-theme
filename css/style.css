@@ -1,7 +1,5 @@
 html, body {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+    max-height: 100vh;
 	opacity: 1;
 	margin: 0;
 	background-color: #000;
@@ -15,10 +13,8 @@ html, body {
 }
 
 .container {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
+    width: 500px;
+    margin: 30vh auto;
 }
 
 .inputBox, .messageBox {
@@ -31,24 +27,21 @@ html, body {
 	position: relative;
 }
 
-.wrapper {
-	height: 85px;
-	width: 350px;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	margin: auto;
+select {
+    min-width: 100%;
 }
 
 .messageBox {
 	text-align: center;
 	visibility: hidden;
-    color: #00f;
+    color: blue;
 	font-size: 24px;
     font-family: monospace;
     font-weight: bold;
+}
+
+.message-error {
+    color: red;
 }
 
 input#entry {

@@ -16,12 +16,9 @@ window.show_prompt = (text, type) => {
 };
 
 window.show_message = (text, type) => {
-    let messages = document.getElementById('messages');
+    let messages = document.getElementById("messages");
     messages.style.visibility = "visible";
-    // type is either "info" or "error"
-    if (type == 'error') {
-        text = `<p style="color:red;">${text}</p>`;
-    }
+    text = `<p class="message-${type}">${text}</p>`;
     messages.innerHTML = `${messages.innerHTML}${text}`;
 };
 
@@ -38,9 +35,7 @@ window.authentication_complete = () => {
     }
 };
 
-/*
- * Theme Functions
- */
+/* Theme Functions */
 window.clear_messages = () => {
     let messages = document.getElementById("messages");
     messages.innerHTML = "";
