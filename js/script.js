@@ -1,7 +1,6 @@
 /* global lightdm */
 
-/*
- * Functions for the greeter
+/* Functions for the greeter
  * These are documented in the lightdm-webkit2-greeter(1) man page
  */
 window.show_prompt = (text, type) => {
@@ -24,9 +23,11 @@ window.show_message = (text, type) => {
 
 window.authentication_complete = () => {
     if (lightdm.is_authenticated) {
+        let session = localStorage.getItem('session');
+        session = 'xmonad';
         document.documentElement.addEventListener(
             'transitionend',
-            () => {lightdm.start_session_sync('xmonad')}
+            () => {lightdm.start_session_sync(session)}
         );
         document.documentElement.className = 'session_starting';
     } else {
@@ -45,8 +46,6 @@ window.clear_messages = () => {
 window.start_authentication = () => {
     window.clear_messages();
     lightdm.authenticate();
-    window.show_message("Hello");
-    window.display_session_choices();
 };
 
 window.handle_input = () => {
@@ -54,6 +53,29 @@ window.handle_input = () => {
     lightdm.respond(entry.value);
 };
 
-window.display_session_choices = () => {
-    window.show_message(lightdm.sessions);
+window.populate_session_select = () => {
+    let active_session = localStorage.getItem('session') || lightdm.default_session,
+        input_wrapper = document.getElementById("inputWrapper"),
+        session_select_element = document.createElement("select");
+    session_select_element.name = "sessions";
+    session_select_element.id = "session-select";
+
+    lightdm.sessions.forEach((session) => {
+        let option = document.createElement("option");
+
+        option.value = session.key;
+        option.selected = session.name === active_session;
+        option.text = session.name;
+
+        session_select_element.appendChild(option);
+    });
+    session_select_element.addEventListener(
+        'input',
+        (updateValue) => {localStorage.setItem('session', updateValue)}
+    );
+    input_wrapper.appendChild(session_select_element);
 }
+
+document.getElementById("entry").focus();
+window.populate_session_select();
+window.start_authentication();

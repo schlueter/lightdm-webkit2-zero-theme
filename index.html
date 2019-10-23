@@ -1,29 +1,26 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <title>LightDM Webkit2 Greeter</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
-    <script type="text/javascript" src="js/script.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>LightDM Webkit2 Greeter</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    </head>
 
-<body id="body">
-    <div class="container">
-        <div class="inputBox">
-            <div class="wrapper">
-                <div id="prompt"></div>
-                <form action="javascript:handle_input();">
-                    <input id="entry" />
-                </form>
+    <body id="body">
+        <div class="container">
+            <div class="inputBox">
+                <div id="inputWrapper">
+                    <div id="prompt"></div>
+                    <form action="javascript:handle_input();">
+                        <input id="entry" />
+                    </form>
+                </div>
+                <label for="sessions">Select a session:</label>
             </div>
+            <div class="messageBox" id="messages"></div>
+            <script type="text/javascript" src="js/script.js"></script>
         </div>
-        <div class="messageBox" id="messages"></div>
-        <script>
-            document.getElementById("entry").focus();
-            start_authentication();
-        </script>
-    </div>
-</body>
+    </body>
 
 </html>
