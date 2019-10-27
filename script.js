@@ -65,27 +65,49 @@ window.handle_input = () => {
     lightdm.respond(document.getElementById("entry").value);
 };
 
-window.populate_session_select = () => {
+window.populate_session_menu = () => {
     let active_session = localStorage.getItem('session') || lightdm.default_session,
-        input_wrapper = document.getElementById("inputWrapper"),
-        session_select_element = document.createElement("select");
-    session_select_element.name = "sessions";
-    session_select_element.id = "session-select";
+        session_menu = document.getElementById('session-menu'),
+        session_input = document.getElementById('session-input');
 
     lightdm.sessions.forEach((session) => {
-        let option = document.createElement("option");
-
-        option.value = session.key;
-        option.selected = session.name === active_session;
-        option.text = session.name;
-
-        session_select_element.appendChild(option);
+        let li = document.createElement('li');
+        li.setAttribute('key', session.key);
+        li.innerText = session.name;
+        if (session.key === active_session) {
+            li.classList.add('selected');
+            session_input.value = session.key;
+        }
+        session_menu.append(li);
     });
-    session_select_element.addEventListener(
+    if (session_input.value === '') {
+        session_menu.firstChild.classList.add('selected');
+    }
+
+    session_menu.addEventListener('click', (event) => {
+        if (event.target.tagName === 'LI') {
+            if (event.target.parentElement.classList.contains('active')) {
+                let was_selected = event.target.classList.contains('selected');
+
+                for (let li of document.getElementsByTagName('li')) {
+                    li.classList.remove('selected');
+                }
+                event.target.classList.add('selected');
+
+                if (was_selected) {
+                    event.target.parentElement.classList.remove('active');
+                    session_input.value = event.target.getAttribute('key');
+                }
+            } else {
+                event.target.parentElement.classList.add('active');
+            }
+        }
+    }, false);
+
+    session_input.addEventListener(
         'input',
-        (updateValue) => {localStorage.setItem('session', updateValue)}
-    );
-    input_wrapper.appendChild(session_select_element);
+        (event) => {localStorage.setItem('session', event.target.value)}
+    )
 }
 
 document.getElementById("entry").focus();
