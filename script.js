@@ -35,41 +35,34 @@ window.show_prompt = (text, type) => {
 
 window.show_message = (text, type) => {
     let messages = document.getElementById("messages");
-    messages.style.visibility = "visible";
     text = `<p class="message-${type}">${text}</p>`;
     messages.innerHTML = `${messages.innerHTML}${text}`;
 };
 
 window.authentication_complete = () => {
     if (lightdm.is_authenticated) {
-        let session = localStorage.getItem('session');
-        session = 'xmonad';
         document.documentElement.addEventListener(
             'transitionend',
-            () => {lightdm.start_session_sync(session)}
+            () => {lightdm.start_session_sync(localStorage.getItem('session'))}
         );
         document.documentElement.className = 'session_starting';
     } else {
         window.show_message("Authentication Failed", "error");
-        setTimeout(window.start_authentication, 3000);
+        setTimeout(() => {
+            window.clear_messages();
+            lightdm.authenticate();
+        }, 3000);
     }
 };
 
 /* Theme Functions */
 window.clear_messages = () => {
-    let messages = document.getElementById("messages");
-    messages.innerHTML = "";
-    messages.style.visibility = "hidden";
+    document.getElementById("messages").innerHTML = "";
+    document.getElementById("messages").style.visibility = "hidden";
 }
 
-window.start_authentication = () => {
-    window.clear_messages();
-    lightdm.authenticate();
-};
-
 window.handle_input = () => {
-    let entry = document.getElementById("entry");
-    lightdm.respond(entry.value);
+    lightdm.respond(document.getElementById("entry").value);
 };
 
 window.populate_session_select = () => {
@@ -96,5 +89,5 @@ window.populate_session_select = () => {
 }
 
 document.getElementById("entry").focus();
-window.populate_session_select();
-window.start_authentication();
+window.populate_session_menu();
+lightdm.authenticate();
