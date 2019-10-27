@@ -1,5 +1,24 @@
 /* global lightdm */
 
+// For local development
+if (!('lightdm' in window)) {
+    window.lightdm = {
+        authenticate: () => {
+            window.show_prompt('username:');
+        },
+        is_authenticated: false,
+        respond: () => {},
+        sessions: [
+            {key: "xmonad",        name: "XMonad"},
+            {key: "enlightenment", name: "Enlightenment"},
+            {key: "sway",          name: "Sway"}
+        ],
+        start_session_sync: (session) => {
+            window.show_message(`starting ${session}`);
+        }
+    };
+}
+
 /* Functions for the greeter
  * These are documented in the lightdm-webkit2-greeter(1) man page
  */
