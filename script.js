@@ -85,6 +85,7 @@ document.addEventListener('click', (event) => {
     if (event.target.closest('#session-menu') === null) {
         window.mutateSessionList('remove', ['selected'])
         document.getElementById('session-menu').classList.remove('active')
+        document.getElementById("entry").focus();
     }
 })
 
@@ -107,7 +108,7 @@ document.getElementById('session-menu').addEventListener('click', (event) => {
             event.target.classList.add('active');
             localStorage.setItem('session', event.target.getAttribute('key'));
             event.target.parentElement.classList.remove('active');
-
+            document.getElementById("entry").focus();
         } else {
             window.mutateSessionList('remove', ['selected'])
             event.target.classList.add('selected');
