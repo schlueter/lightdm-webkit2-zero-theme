@@ -59,21 +59,21 @@ body, #entry, #session-menu {
   overflow: hidden;
 }
 
-#session-menu .selected {
+#session-menu.active .selected {
   border: solid lime;
 }
 
-#session-menu .selected::before {
+#session-menu.active .selected::before {
   content: '«';
   position: absolute;
   left: 1em;
 }
 
-#session-menu .selected::after {
+#session-menu.active .selected::after {
   content: ' »';
 }
 
 #session-menu.active li,
-#session-menu .selected {
+#session-menu .active {
   display: block;
 }

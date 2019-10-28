@@ -68,48 +68,59 @@ window.handle_input = () => {
 
 window.populate_session_menu = () => {
     let active_session = localStorage.getItem('session') || lightdm.default_session,
-        session_menu = document.getElementById('session-menu'),
-        session_input = document.getElementById('session-input');
+        session_menu = document.getElementById('session-menu');
 
     lightdm.sessions.forEach((session) => {
         let li = document.createElement('li');
         li.setAttribute('key', session.key);
         li.innerText = session.name;
         if (session.key === active_session) {
-            li.classList.add('selected');
-            session_input.value = session.key;
+            li.classList.add('active');
         }
         session_menu.append(li);
     });
-    if (session_input.value === '') {
-        session_menu.firstChild.classList.add('selected');
+}
+
+document.addEventListener('click', (event) => {
+    if (event.target.closest('#session-menu') === null) {
+        window.mutateSessionList('remove', ['selected'])
+        document.getElementById('session-menu').classList.remove('active')
     }
+})
 
-    session_menu.addEventListener('click', (event) => {
-        if (event.target.tagName === 'LI') {
-            if (event.target.parentElement.classList.contains('active')) {
-                let was_selected = event.target.classList.contains('selected');
+window.mutateSessionList = (action, classes) => {
+    document.getElementById('session-menu')
+        .dispatchEvent(new CustomEvent('mutateMemberClasses', {detail: {action, classes}}))
+}
 
-                for (let li of document.getElementsByTagName('li')) {
-                    li.classList.remove('selected');
-                }
-                event.target.classList.add('selected');
+document.getElementById('session-menu')
+    .addEventListener('mutateMemberClasses', (event) => {
+        for (let li of event.target.getElementsByTagName('li')) {
+            li.classList[event.detail.action](...event.detail.classes)
+        }
+    })
 
-                if (was_selected) {
-                    event.target.parentElement.classList.remove('active');
-                    session_input.value = event.target.getAttribute('key');
-                }
-            } else {
-                event.target.parentElement.classList.add('active');
+document.getElementById('session-menu').addEventListener('click', (event) => {
+    if (event.target.parentElement.classList.contains('active')) {
+        if (event.target.classList.contains('selected')) {
+            window.mutateSessionList('remove', ['selected', 'active'])
+            event.target.classList.add('active');
+            localStorage.setItem('session', event.target.getAttribute('key'));
+            event.target.parentElement.classList.remove('active');
+
+        } else {
+            window.mutateSessionList('remove', ['selected'])
+            event.target.classList.add('selected');
+        }
+    } else {
+        event.target.parentElement.classList.add('active');
+        for (let li of event.target.parentElement.getElementsByTagName('li')) {
+            if (li.classList.contains('active')) {
+                li.classList.add('selected');
             }
         }
-    }, false);
-
-    session_input.addEventListener(
-        'input',
-        (event) => {localStorage.setItem('session', event.target.value)}
-    )
-}
+    }
+});
 
 document.getElementById("entry").focus();
 window.populate_session_menu();
