@@ -6,6 +6,7 @@ if (!('lightdm' in window)) {
         authenticate: () => {
             window.show_prompt('username:');
         },
+        default_session: 'xmonad',
         is_authenticated: false,
         respond: () => {},
         sessions: [
